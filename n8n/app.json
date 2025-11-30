@@ -1,0 +1,48 @@
+{
+  "name": "n8n",
+  "description": "Powerful workflow automation tool with 400+ integrations",
+  "icon": "https://n8n.io/favicon.ico",
+  "website": "https://n8n.io",
+  "category": "automation",
+  "tags": ["automation", "workflow", "integration", "zapier-alternative", "low-code", "api"],
+  "inputs": {
+    "domain": {
+      "label": "Domain name",
+      "placeholder": "automation.example.com",
+      "required": true,
+      "type": "text",
+      "validation": "^[a-z0-9.-]+$",
+      "description": "Your domain for accessing n8n"
+    },
+    "timezone": {
+      "label": "Timezone",
+      "placeholder": "America/New_York",
+      "required": false,
+      "type": "text",
+      "description": "Timezone for scheduled workflows"
+    },
+    "basic_auth_user": {
+      "label": "Basic auth username",
+      "placeholder": "admin",
+      "required": true,
+      "type": "text",
+      "description": "Username for accessing n8n"
+    },
+    "basic_auth_password": {
+      "label": "Basic auth password",
+      "required": true,
+      "type": "password",
+      "description": "Password for accessing n8n"
+    }
+  },
+  "services": {
+    "app": {
+      "exposed": true,
+      "stateless": false
+    },
+    "db": {
+      "internal": true,
+      "managed_option": "postgres"
+    }
+  }
+}

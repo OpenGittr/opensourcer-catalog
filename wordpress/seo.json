@@ -1,0 +1,112 @@
+{
+  "seo": {
+    "title": "Self-Host WordPress - Deploy to Your Cloud | Opensourcer",
+    "description": "Deploy WordPress to AWS, GCP, or Azure in 5 minutes. Full control, no vendor lock-in. Starting at $6/month.",
+    "keywords": ["wordpress hosting", "self-hosted wordpress", "wordpress aws", "wordpress docker", "wordpress vps", "managed wordpress"]
+  },
+  "hero": {
+    "tagline": "The world's most popular CMS",
+    "heading": "Self-host WordPress on your own cloud",
+    "subheading": "Deploy a production-ready WordPress instance to AWS, GCP, or Azure in under 5 minutes. Your data stays yours."
+  },
+  "features": [
+    {
+      "title": "Full admin access",
+      "description": "Complete control over plugins, themes, and settings. No restrictions.",
+      "icon": "key"
+    },
+    {
+      "title": "Automatic SSL",
+      "description": "Free SSL certificates via Let's Encrypt, auto-renewed.",
+      "icon": "shield"
+    },
+    {
+      "title": "Daily backups",
+      "description": "Automated backups to S3 or your preferred storage.",
+      "icon": "database"
+    },
+    {
+      "title": "One-click updates",
+      "description": "Update WordPress core, themes, and plugins with ease.",
+      "icon": "refresh"
+    },
+    {
+      "title": "Unlimited plugins",
+      "description": "Install any plugin from the WordPress repository or custom sources.",
+      "icon": "puzzle"
+    },
+    {
+      "title": "Custom themes",
+      "description": "Use any theme, including premium themes you've purchased.",
+      "icon": "palette"
+    }
+  ],
+  "comparison": {
+    "title": "WordPress.com vs Self-Hosted",
+    "items": [
+      {
+        "feature": "Custom plugins",
+        "saas": "Business plan ($25/mo)",
+        "self_hosted": "Unlimited, free"
+      },
+      {
+        "feature": "Full database access",
+        "saas": "Not available",
+        "self_hosted": "Full MySQL access"
+      },
+      {
+        "feature": "Remove branding",
+        "saas": "Business plan required",
+        "self_hosted": "Full control"
+      },
+      {
+        "feature": "Custom themes",
+        "saas": "Premium plan ($8/mo)",
+        "self_hosted": "Any theme, free"
+      },
+      {
+        "feature": "WooCommerce",
+        "saas": "Business plan required",
+        "self_hosted": "Free to install"
+      },
+      {
+        "feature": "Data ownership",
+        "saas": "Hosted by Automattic",
+        "self_hosted": "Your servers"
+      }
+    ]
+  },
+  "use_cases": [
+    "Company blogs and marketing sites",
+    "E-commerce with WooCommerce",
+    "Membership and subscription sites",
+    "Portfolio and agency websites",
+    "News and magazine sites",
+    "Educational platforms with LearnDash"
+  ],
+  "alternatives": ["ghost", "strapi", "directus"],
+  "faq": [
+    {
+      "question": "How much does it cost to run WordPress?",
+      "answer": "A small VM (~$6/month) handles most personal blogs and small business sites. High-traffic sites may need $20-50/month for better performance."
+    },
+    {
+      "question": "Can I migrate my existing WordPress site?",
+      "answer": "Yes! Export your content from your current host and import it into your new self-hosted instance. Plugins and themes can be reinstalled."
+    },
+    {
+      "question": "Is self-hosted WordPress secure?",
+      "answer": "Yes, when properly configured. We set up automatic security updates, SSL certificates, and firewall rules. Regular backups protect your data."
+    },
+    {
+      "question": "Do you provide support?",
+      "answer": "We handle infrastructure issues. For WordPress-specific questions, the community forums and documentation are excellent resources."
+    }
+  ],
+  "estimates": {
+    "deploy_time": "5 minutes",
+    "monthly_cost_min": 6,
+    "monthly_cost_max": 50,
+    "difficulty": "beginner"
+  }
+}

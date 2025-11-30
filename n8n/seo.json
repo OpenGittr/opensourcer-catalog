@@ -1,0 +1,112 @@
+{
+  "seo": {
+    "title": "Self-Host n8n - Workflow Automation on Your Cloud | Opensourcer",
+    "description": "Deploy n8n workflow automation to AWS, GCP, or Azure in 5 minutes. 400+ integrations, unlimited workflows. No per-execution fees.",
+    "keywords": ["n8n hosting", "self-hosted automation", "zapier alternative", "workflow automation", "n8n docker", "open source automation"]
+  },
+  "hero": {
+    "tagline": "Zapier alternative you can self-host",
+    "heading": "Automate anything with n8n on your cloud",
+    "subheading": "Connect 400+ apps and build powerful workflows without per-execution fees. Deploy to your own infrastructure and keep your data private."
+  },
+  "features": [
+    {
+      "title": "400+ integrations",
+      "description": "Connect to virtually any service - from Slack to Salesforce, GitHub to Google Sheets.",
+      "icon": "puzzle"
+    },
+    {
+      "title": "No execution limits",
+      "description": "Run unlimited workflows without per-execution fees. Pay only for infrastructure.",
+      "icon": "infinity"
+    },
+    {
+      "title": "Visual editor",
+      "description": "Build complex workflows visually with drag-and-drop simplicity.",
+      "icon": "cursor"
+    },
+    {
+      "title": "Self-contained",
+      "description": "Your data never leaves your servers. Full privacy and compliance.",
+      "icon": "shield"
+    },
+    {
+      "title": "Code when needed",
+      "description": "Add custom JavaScript or Python code when visual nodes aren't enough.",
+      "icon": "code"
+    },
+    {
+      "title": "Scheduled triggers",
+      "description": "Run workflows on schedules or trigger them via webhooks.",
+      "icon": "clock"
+    }
+  ],
+  "comparison": {
+    "title": "Zapier vs Self-Hosted n8n",
+    "items": [
+      {
+        "feature": "Monthly executions",
+        "saas": "Limited (20-50k)",
+        "self_hosted": "Unlimited"
+      },
+      {
+        "feature": "Pricing",
+        "saas": "$20-600+/month",
+        "self_hosted": "~$10/month infra"
+      },
+      {
+        "feature": "Data privacy",
+        "saas": "Processed by Zapier",
+        "self_hosted": "Never leaves your server"
+      },
+      {
+        "feature": "Custom code",
+        "saas": "Limited",
+        "self_hosted": "Full JavaScript/Python"
+      },
+      {
+        "feature": "Self-hosted option",
+        "saas": "No",
+        "self_hosted": "Yes"
+      },
+      {
+        "feature": "Multi-step workflows",
+        "saas": "Premium plans",
+        "self_hosted": "Included"
+      }
+    ]
+  },
+  "use_cases": [
+    "Marketing automation and lead nurturing",
+    "DevOps workflows and CI/CD automation",
+    "Data synchronization between systems",
+    "Customer support ticket routing",
+    "E-commerce order processing",
+    "Social media scheduling and monitoring"
+  ],
+  "alternatives": ["activepieces", "huginn"],
+  "faq": [
+    {
+      "question": "How does n8n compare to Zapier?",
+      "answer": "n8n offers similar functionality with 400+ integrations, but you can self-host it and run unlimited workflows without per-execution fees. It also supports custom code for advanced use cases."
+    },
+    {
+      "question": "What are the resource requirements?",
+      "answer": "A basic instance runs well on 1 vCPU and 2GB RAM (~$10/month). For heavy workflows, consider 2 vCPUs and 4GB RAM."
+    },
+    {
+      "question": "Can I migrate from Zapier?",
+      "answer": "While there's no automatic migration, n8n supports most services Zapier does. You'll need to recreate workflows, but the visual editor makes this straightforward."
+    },
+    {
+      "question": "Is it production-ready?",
+      "answer": "Yes. n8n is used by companies like Adobe and is designed for production workloads. We configure it with proper backups, SSL, and monitoring."
+    }
+  ],
+  "estimates": {
+    "deploy_time": "5 minutes",
+    "monthly_cost_min": 10,
+    "monthly_cost_max": 40,
+    "difficulty": "beginner"
+  }
+}

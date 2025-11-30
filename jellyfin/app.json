@@ -1,0 +1,15 @@
+{
+  "name": "Jellyfin",
+  "description": "Free media server for movies, TV shows, and music",
+  "icon": "https://jellyfin.org/images/favicon.ico",
+  "website": "https://jellyfin.org",
+  "category": "media",
+  "tags": ["media-server", "streaming", "movies", "tv-shows", "music"],
+  "inputs": {},
+  "services": {
+    "app": {
+      "exposed": true,
+      "stateless": false
+    }
+  }
+}

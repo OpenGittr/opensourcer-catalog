@@ -1,0 +1,60 @@
+{
+  "categories": [
+    {
+      "slug": "cms",
+      "name": "Content Management",
+      "description": "Blogs, websites, and content platforms",
+      "icon": "document-text",
+      "order": 1
+    },
+    {
+      "slug": "devtools",
+      "name": "Developer Tools",
+      "description": "Git hosting, CI/CD, and development platforms",
+      "icon": "code",
+      "order": 2
+    },
+    {
+      "slug": "automation",
+      "name": "Automation",
+      "description": "Workflow automation and integration platforms",
+      "icon": "cog",
+      "order": 3
+    },
+    {
+      "slug": "communication",
+      "name": "Communication",
+      "description": "Chat, email, and collaboration tools",
+      "icon": "chat",
+      "order": 4
+    },
+    {
+      "slug": "analytics",
+      "name": "Analytics",
+      "description": "Business intelligence and data visualization",
+      "icon": "chart-bar",
+      "order": 5
+    },
+    {
+      "slug": "storage",
+      "name": "File Storage",
+      "description": "Cloud storage and file sharing",
+      "icon": "folder",
+      "order": 6
+    },
+    {
+      "slug": "databases",
+      "name": "Databases",
+      "description": "Database management and admin tools",
+      "icon": "database",
+      "order": 7
+    },
+    {
+      "slug": "monitoring",
+      "name": "Monitoring",
+      "description": "Infrastructure and application monitoring",
+      "icon": "eye",
+      "order": 8
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "name": "WordPress",
+  "description": "The world's most popular open-source blogging and CMS platform",
+  "icon": "https://s.w.org/style/images/about/WordPress-logotype-simplified.png",
+  "website": "https://wordpress.org",
+  "category": "cms",
+  "tags": ["blog", "cms", "php", "mysql", "woocommerce"],
+  "inputs": {
+    "domain": {
+      "label": "Domain name",
+      "placeholder": "myblog.example.com",
+      "required": true,
+      "type": "text",
+      "validation": "^[a-z0-9.-]+$",
+      "description": "Your domain pointed to this deployment"
+    },
+    "admin_email": {
+      "label": "Admin email",
+      "placeholder": "admin@example.com",
+      "required": true,
+      "type": "text",
+      "description": "Email for WordPress admin account"
+    },
+    "site_title": {
+      "label": "Site title",
+      "placeholder": "My Blog",
+      "required": false,
+      "type": "text",
+      "description": "Your WordPress site title"
+    }
+  },
+  "services": {
+    "app": {
+      "exposed": true,
+      "stateless": false
+    },
+    "db": {
+      "internal": true,
+      "managed_option": "mysql"
+    }
+  }
+}

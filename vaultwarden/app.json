@@ -1,0 +1,22 @@
+{
+  "name": "Vaultwarden",
+  "description": "Lightweight Bitwarden-compatible password manager",
+  "icon": "https://raw.githubusercontent.com/dani-garcia/vaultwarden/main/resources/vaultwarden-icon.svg",
+  "website": "https://github.com/dani-garcia/vaultwarden",
+  "category": "security",
+  "tags": ["password-manager", "security", "bitwarden", "encryption", "2fa"],
+  "inputs": {
+    "admin_token": {
+      "label": "Admin token",
+      "required": false,
+      "type": "password",
+      "description": "Token for accessing admin panel (leave empty to disable)"
+    }
+  },
+  "services": {
+    "app": {
+      "exposed": true,
+      "stateless": false
+    }
+  }
+}

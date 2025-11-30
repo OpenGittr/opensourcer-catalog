@@ -1,0 +1,27 @@
+{
+  "name": "Plausible",
+  "description": "Privacy-friendly Google Analytics alternative",
+  "icon": "https://plausible.io/favicon.png",
+  "website": "https://plausible.io",
+  "category": "analytics",
+  "tags": ["analytics", "privacy", "gdpr", "website-stats", "lightweight"],
+  "inputs": {
+    "domain": {
+      "label": "Domain to track",
+      "placeholder": "example.com",
+      "required": true,
+      "type": "text",
+      "description": "The domain you want to track"
+    }
+  },
+  "services": {
+    "app": {
+      "exposed": true,
+      "stateless": false
+    },
+    "db": {
+      "internal": true,
+      "managed_option": "postgres"
+    }
+  }
+}

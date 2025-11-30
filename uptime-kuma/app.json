@@ -1,0 +1,15 @@
+{
+  "name": "Uptime Kuma",
+  "description": "Easy-to-use self-hosted monitoring tool",
+  "icon": "https://uptime.kuma.pet/img/icon.svg",
+  "website": "https://uptime.kuma.pet",
+  "category": "monitoring",
+  "tags": ["monitoring", "uptime", "status-page", "alerts", "devops"],
+  "inputs": {},
+  "services": {
+    "app": {
+      "exposed": true,
+      "stateless": false
+    }
+  }
+}

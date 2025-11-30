@@ -1,0 +1,27 @@
+{
+  "name": "Mattermost",
+  "description": "Open source Slack alternative for team messaging",
+  "icon": "https://mattermost.com/wp-content/uploads/2022/02/icon_WS.svg",
+  "website": "https://mattermost.com",
+  "category": "communication",
+  "tags": ["chat", "messaging", "slack-alternative", "collaboration", "teams"],
+  "inputs": {
+    "domain": {
+      "label": "Domain name",
+      "placeholder": "chat.example.com",
+      "required": true,
+      "type": "text",
+      "description": "Your domain for accessing Mattermost"
+    }
+  },
+  "services": {
+    "app": {
+      "exposed": true,
+      "stateless": false
+    },
+    "db": {
+      "internal": true,
+      "managed_option": "postgres"
+    }
+  }
+}
