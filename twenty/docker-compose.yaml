@@ -1,0 +1,76 @@
+services:
+  server:
+    image: twentycrm/twenty:latest
+    container_name: twenty-server
+    volumes:
+      - twenty-data:/app/packages/twenty-server/.local-storage
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_PORT: 3000
+      PG_DATABASE_URL: postgres://twenty:twenty@db:5432/twenty
+      SERVER_URL: ${SERVER_URL:-http://localhost:3000}
+      REDIS_URL: redis://redis:6379
+      APP_SECRET: ${APP_SECRET:-change_me_to_a_random_string_at_least_32_chars}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: curl --fail http://localhost:3000/healthz
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: always
+
+  worker:
+    image: twentycrm/twenty:latest
+    container_name: twenty-worker
+    volumes:
+      - twenty-data:/app/packages/twenty-server/.local-storage
+    command: ["yarn", "worker:prod"]
+    environment:
+      PG_DATABASE_URL: postgres://twenty:twenty@db:5432/twenty
+      SERVER_URL: ${SERVER_URL:-http://localhost:3000}
+      REDIS_URL: redis://redis:6379
+      DISABLE_DB_MIGRATIONS: "true"
+      DISABLE_CRON_JOBS_REGISTRATION: "true"
+      APP_SECRET: ${APP_SECRET:-change_me_to_a_random_string_at_least_32_chars}
+    depends_on:
+      db:
+        condition: service_healthy
+      server:
+        condition: service_healthy
+    restart: always
+
+  db:
+    image: postgres:16
+    container_name: twenty-db
+    volumes:
+      - twenty-db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: twenty
+      POSTGRES_PASSWORD: twenty
+      POSTGRES_USER: twenty
+    healthcheck:
+      test: pg_isready -U twenty -h localhost -d twenty
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: always
+
+  redis:
+    image: redis:alpine
+    container_name: twenty-redis
+    restart: always
+    command: ["--maxmemory-policy", "noeviction"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  twenty-db:
+  twenty-data:

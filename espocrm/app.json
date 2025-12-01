@@ -1,0 +1,38 @@
+{
+  "name": "EspoCRM",
+  "description": "Lightweight open-source CRM for sales, marketing and support",
+  "website": "https://www.espocrm.com",
+  "icon": "https://www.espocrm.com/site/assets/logo.svg",
+  "category": "crm",
+  "tags": ["crm", "sales", "marketing", "support", "leads", "contacts", "lightweight"],
+  "inputs": {
+    "admin_username": {
+      "label": "Admin Username",
+      "placeholder": "admin",
+      "required": false,
+      "type": "text",
+      "default": "admin",
+      "description": "Administrator username"
+    },
+    "admin_password": {
+      "label": "Admin Password",
+      "placeholder": "password",
+      "required": false,
+      "type": "password",
+      "description": "Administrator password"
+    }
+  },
+  "services": {
+    "espocrm": {
+      "exposed": true,
+      "stateless": false
+    },
+    "espocrm-daemon": {
+      "internal": true
+    },
+    "espocrm-db": {
+      "internal": true,
+      "managed_option": "mysql"
+    }
+  }
+}

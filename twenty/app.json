@@ -1,0 +1,34 @@
+{
+  "name": "Twenty",
+  "description": "Modern open-source CRM alternative to Salesforce",
+  "website": "https://twenty.com",
+  "icon": "https://twenty.com/images/core/logo.svg",
+  "category": "crm",
+  "tags": ["crm", "sales", "salesforce-alternative", "contacts", "pipeline", "deals"],
+  "inputs": {
+    "server_url": {
+      "label": "Server URL",
+      "placeholder": "http://localhost:3000",
+      "required": false,
+      "type": "text",
+      "description": "Public URL for your Twenty instance"
+    }
+  },
+  "services": {
+    "server": {
+      "exposed": true,
+      "stateless": false
+    },
+    "worker": {
+      "internal": true
+    },
+    "db": {
+      "internal": true,
+      "managed_option": "postgres"
+    },
+    "redis": {
+      "internal": true,
+      "managed_option": "redis"
+    }
+  }
+}

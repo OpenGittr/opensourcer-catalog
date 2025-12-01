@@ -1,0 +1,42 @@
+services:
+  mariadb:
+    image: docker.io/bitnami/mariadb:11
+    container_name: suitecrm-db
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-suitecrm_root}
+      MARIADB_DATABASE: suitecrm
+      MARIADB_USER: suitecrm
+      MARIADB_PASSWORD: ${DB_PASSWORD:-suitecrm_password}
+    volumes:
+      - suitecrm-db:/bitnami/mariadb
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  suitecrm:
+    image: docker.io/bitnami/suitecrm:8
+    container_name: suitecrm
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    environment:
+      SUITECRM_DATABASE_HOST: mariadb
+      SUITECRM_DATABASE_PORT_NUMBER: 3306
+      SUITECRM_DATABASE_USER: suitecrm
+      SUITECRM_DATABASE_PASSWORD: ${DB_PASSWORD:-suitecrm_password}
+      SUITECRM_DATABASE_NAME: suitecrm
+      SUITECRM_USERNAME: ${ADMIN_USERNAME:-admin}
+      SUITECRM_PASSWORD: ${ADMIN_PASSWORD:-password}
+    volumes:
+      - suitecrm-data:/bitnami/suitecrm
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    restart: always
+
+volumes:
+  suitecrm-db:
+  suitecrm-data:

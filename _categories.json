@@ -55,6 +55,13 @@
       "description": "Infrastructure and application monitoring",
       "icon": "eye",
       "order": 8
+    },
+    {
+      "slug": "crm",
+      "name": "CRM",
+      "description": "Customer relationship management systems",
+      "icon": "users",
+      "order": 9
     }
   ]
 }

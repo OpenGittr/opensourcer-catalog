@@ -1,0 +1,35 @@
+{
+  "name": "SuiteCRM",
+  "description": "Enterprise-grade open-source CRM with full sales, marketing and service features",
+  "website": "https://suitecrm.com",
+  "icon": "https://suitecrm.com/wp-content/uploads/2017/12/logo.png",
+  "category": "crm",
+  "tags": ["crm", "enterprise", "sales", "marketing", "service", "sugarcrm-fork", "reporting"],
+  "inputs": {
+    "admin_username": {
+      "label": "Admin Username",
+      "placeholder": "admin",
+      "required": false,
+      "type": "text",
+      "default": "admin",
+      "description": "Administrator username"
+    },
+    "admin_password": {
+      "label": "Admin Password",
+      "placeholder": "password",
+      "required": false,
+      "type": "password",
+      "description": "Administrator password"
+    }
+  },
+  "services": {
+    "suitecrm": {
+      "exposed": true,
+      "stateless": false
+    },
+    "mariadb": {
+      "internal": true,
+      "managed_option": "mysql"
+    }
+  }
+}
