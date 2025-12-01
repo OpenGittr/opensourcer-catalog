@@ -1,0 +1,38 @@
+services:
+  odoo-db:
+    image: postgres:15-alpine
+    container_name: odoo-db
+    environment:
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-odoo_password}
+      POSTGRES_DB: postgres
+    volumes:
+      - odoo-db:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  odoo:
+    image: odoo:17
+    container_name: odoo
+    environment:
+      HOST: odoo-db
+      USER: odoo
+      PASSWORD: ${DB_PASSWORD:-odoo_password}
+    ports:
+      - "8069:8069"
+    volumes:
+      - odoo-data:/var/lib/odoo
+      - odoo-addons:/mnt/extra-addons
+    depends_on:
+      odoo-db:
+        condition: service_healthy
+    restart: always
+
+volumes:
+  odoo-db:
+  odoo-data:
+  odoo-addons:

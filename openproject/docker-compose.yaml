@@ -1,0 +1,46 @@
+services:
+  openproject-db:
+    image: postgres:13
+    container_name: openproject-db
+    environment:
+      POSTGRES_USER: openproject
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-openproject_password}
+      POSTGRES_DB: openproject
+    volumes:
+      - openproject-db:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U openproject"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  openproject-cache:
+    image: memcached:alpine
+    container_name: openproject-cache
+    restart: always
+
+  openproject:
+    image: openproject/openproject:14
+    container_name: openproject
+    environment:
+      OPENPROJECT_SECRET_KEY_BASE: ${SECRET_KEY:-secret}
+      OPENPROJECT_HOST__NAME: ${HOST_NAME:-localhost:8080}
+      OPENPROJECT_HTTPS: "false"
+      DATABASE_URL: postgres://openproject:${DB_PASSWORD:-openproject_password}@openproject-db/openproject
+      OPENPROJECT_CACHE__MEMCACHE__SERVER: openproject-cache:11211
+      OPENPROJECT_RAILS__CACHE__STORE: memcache
+    ports:
+      - "8080:80"
+    volumes:
+      - openproject-data:/var/openproject/assets
+    depends_on:
+      openproject-db:
+        condition: service_healthy
+      openproject-cache:
+        condition: service_started
+    restart: always
+
+volumes:
+  openproject-db:
+  openproject-data:

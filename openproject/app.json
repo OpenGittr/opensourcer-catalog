@@ -1,0 +1,46 @@
+{
+  "name": "OpenProject",
+  "description": "Open source project management software with Gantt charts, boards, and time tracking",
+  "website": "https://www.openproject.org",
+  "icon": "https://www.openproject.org/assets/images/logo/logo-icon.png",
+  "category": "project-management",
+  "tags": ["project-management", "gantt", "kanban", "agile", "scrum", "time-tracking", "enterprise"],
+  "inputs": {
+    "admin_email": {
+      "label": "Admin Email",
+      "placeholder": "admin@example.com",
+      "required": true,
+      "type": "email",
+      "description": "Administrator email address"
+    },
+    "admin_password": {
+      "label": "Admin Password",
+      "placeholder": "admin",
+      "required": false,
+      "type": "password",
+      "default": "admin",
+      "description": "Administrator password (default: admin)"
+    },
+    "secret_key": {
+      "label": "Secret Key",
+      "placeholder": "secret",
+      "required": false,
+      "type": "password",
+      "description": "Secret key for session encryption"
+    }
+  },
+  "services": {
+    "openproject": {
+      "exposed": true,
+      "stateless": false
+    },
+    "openproject-db": {
+      "internal": true,
+      "managed_option": "postgres"
+    },
+    "openproject-cache": {
+      "internal": true,
+      "managed_option": "redis"
+    }
+  }
+}

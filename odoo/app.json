@@ -1,0 +1,34 @@
+{
+  "name": "Odoo",
+  "description": "All-in-one business software including HR, recruiting, CRM, and more",
+  "website": "https://www.odoo.com",
+  "icon": "https://www.odoo.com/favicon.ico",
+  "category": "hr",
+  "tags": ["hr", "recruiting", "erp", "crm", "inventory", "accounting", "all-in-one"],
+  "inputs": {
+    "admin_email": {
+      "label": "Admin Email",
+      "placeholder": "admin@example.com",
+      "required": true,
+      "type": "email",
+      "description": "Administrator email address"
+    },
+    "admin_password": {
+      "label": "Admin Password",
+      "placeholder": "password",
+      "required": false,
+      "type": "password",
+      "description": "Administrator master password"
+    }
+  },
+  "services": {
+    "odoo": {
+      "exposed": true,
+      "stateless": false
+    },
+    "odoo-db": {
+      "internal": true,
+      "managed_option": "postgres"
+    }
+  }
+}

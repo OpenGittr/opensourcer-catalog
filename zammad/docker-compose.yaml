@@ -1,0 +1,74 @@
+services:
+  zammad-elasticsearch:
+    image: bitnami/elasticsearch:8
+    container_name: zammad-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+      - zammad-elasticsearch:/bitnami/elasticsearch/data
+    restart: always
+
+  zammad-memcached:
+    image: memcached:alpine
+    container_name: zammad-memcached
+    command: memcached -m 256M
+    restart: always
+
+  zammad-postgresql:
+    image: postgres:15-alpine
+    container_name: zammad-postgresql
+    environment:
+      POSTGRES_USER: zammad
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-zammad_password}
+      POSTGRES_DB: zammad
+    volumes:
+      - zammad-postgresql:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zammad"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  zammad-redis:
+    image: redis:alpine
+    container_name: zammad-redis
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  zammad:
+    image: ghcr.io/zammad/zammad:latest
+    container_name: zammad
+    environment:
+      POSTGRESQL_HOST: zammad-postgresql
+      POSTGRESQL_USER: zammad
+      POSTGRESQL_PASS: ${DB_PASSWORD:-zammad_password}
+      POSTGRESQL_DB: zammad
+      MEMCACHE_SERVERS: zammad-memcached:11211
+      REDIS_URL: redis://zammad-redis:6379
+      ELASTICSEARCH_HOST: zammad-elasticsearch
+      RAILS_TRUSTED_PROXIES: "['127.0.0.1', '::1']"
+    ports:
+      - "8080:8080"
+    volumes:
+      - zammad-data:/opt/zammad
+    depends_on:
+      zammad-postgresql:
+        condition: service_healthy
+      zammad-redis:
+        condition: service_healthy
+      zammad-elasticsearch:
+        condition: service_started
+      zammad-memcached:
+        condition: service_started
+    restart: always
+
+volumes:
+  zammad-elasticsearch:
+  zammad-postgresql:
+  zammad-data:

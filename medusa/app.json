@@ -1,0 +1,52 @@
+{
+  "name": "Medusa",
+  "description": "Open source composable commerce platform for building digital commerce",
+  "website": "https://medusajs.com",
+  "icon": "https://medusajs.com/favicon.ico",
+  "category": "ecommerce",
+  "tags": ["ecommerce", "headless", "commerce", "storefront", "shopify-alternative", "nodejs"],
+  "inputs": {
+    "admin_email": {
+      "label": "Admin Email",
+      "placeholder": "admin@example.com",
+      "required": true,
+      "type": "email",
+      "description": "Administrator email address"
+    },
+    "admin_password": {
+      "label": "Admin Password",
+      "placeholder": "password",
+      "required": false,
+      "type": "password",
+      "description": "Administrator password"
+    },
+    "jwt_secret": {
+      "label": "JWT Secret",
+      "placeholder": "your-jwt-secret",
+      "required": false,
+      "type": "password",
+      "description": "JWT secret for authentication"
+    },
+    "cookie_secret": {
+      "label": "Cookie Secret",
+      "placeholder": "your-cookie-secret",
+      "required": false,
+      "type": "password",
+      "description": "Cookie secret for sessions"
+    }
+  },
+  "services": {
+    "medusa": {
+      "exposed": true,
+      "stateless": false
+    },
+    "medusa-db": {
+      "internal": true,
+      "managed_option": "postgres"
+    },
+    "medusa-redis": {
+      "internal": true,
+      "managed_option": "redis"
+    }
+  }
+}

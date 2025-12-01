@@ -1,0 +1,49 @@
+{
+  "name": "Plane",
+  "description": "Open source project tracking tool (JIRA, Linear, Asana alternative)",
+  "website": "https://plane.so",
+  "icon": "https://plane.so/favicon.ico",
+  "category": "project-management",
+  "tags": ["project-management", "issue-tracking", "kanban", "jira-alternative", "linear-alternative"],
+  "inputs": {
+    "secret_key": {
+      "label": "Secret Key",
+      "placeholder": "60gp0byfz2dvffa45cxl20p1scy9xbpf6d8c5y0geez2",
+      "required": false,
+      "type": "password",
+      "description": "Secret key for Django"
+    }
+  },
+  "services": {
+    "proxy": {
+      "exposed": true,
+      "stateless": true
+    },
+    "web": {
+      "internal": true
+    },
+    "space": {
+      "internal": true
+    },
+    "api": {
+      "internal": true
+    },
+    "worker": {
+      "internal": true
+    },
+    "beat-worker": {
+      "internal": true
+    },
+    "plane-db": {
+      "internal": true,
+      "managed_option": "postgres"
+    },
+    "plane-redis": {
+      "internal": true,
+      "managed_option": "redis"
+    },
+    "plane-minio": {
+      "internal": true
+    }
+  }
+}

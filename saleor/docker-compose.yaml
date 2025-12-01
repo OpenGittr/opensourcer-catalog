@@ -1,0 +1,72 @@
+services:
+  saleor-db:
+    image: postgres:15-alpine
+    container_name: saleor-db
+    environment:
+      POSTGRES_USER: saleor
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-saleor_password}
+      POSTGRES_DB: saleor
+    volumes:
+      - saleor-db:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U saleor"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  saleor-redis:
+    image: redis:7-alpine
+    container_name: saleor-redis
+    restart: always
+    volumes:
+      - saleor-redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    image: ghcr.io/saleor/saleor:latest
+    container_name: saleor-api
+    environment:
+      DATABASE_URL: postgres://saleor:${DB_PASSWORD:-saleor_password}@saleor-db:5432/saleor
+      REDIS_URL: redis://saleor-redis:6379/0
+      CELERY_BROKER_URL: redis://saleor-redis:6379/1
+      SECRET_KEY: ${SECRET_KEY:-changeme}
+      ALLOWED_HOSTS: localhost,api
+      DEBUG: "False"
+      ENABLE_ACCOUNT_CONFIRMATION_BY_EMAIL: "False"
+    ports:
+      - "8000:8000"
+    depends_on:
+      saleor-db:
+        condition: service_healthy
+      saleor-redis:
+        condition: service_healthy
+    restart: always
+
+  worker:
+    image: ghcr.io/saleor/saleor:latest
+    container_name: saleor-worker
+    command: celery -A saleor --app=saleor.celeryconf:app worker --loglevel=info -B
+    environment:
+      DATABASE_URL: postgres://saleor:${DB_PASSWORD:-saleor_password}@saleor-db:5432/saleor
+      REDIS_URL: redis://saleor-redis:6379/0
+      CELERY_BROKER_URL: redis://saleor-redis:6379/1
+      SECRET_KEY: ${SECRET_KEY:-changeme}
+    depends_on:
+      - api
+    restart: always
+
+  dashboard:
+    image: ghcr.io/saleor/saleor-dashboard:latest
+    container_name: saleor-dashboard
+    ports:
+      - "9000:80"
+    restart: always
+
+volumes:
+  saleor-db:
+  saleor-redis:

@@ -1,0 +1,49 @@
+services:
+  invoiceninja-db:
+    image: mysql:8
+    container_name: invoiceninja-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-ninja_root}
+      MYSQL_DATABASE: ninja
+      MYSQL_USER: ninja
+      MYSQL_PASSWORD: ${DB_PASSWORD:-ninja_password}
+    volumes:
+      - invoiceninja-db:/var/lib/mysql
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  invoiceninja:
+    image: invoiceninja/invoiceninja:latest
+    container_name: invoiceninja
+    environment:
+      APP_URL: ${APP_URL:-http://localhost:8080}
+      APP_KEY: ${APP_KEY:-base64:O1S3kiV12veB3AD0d1EuA1SIFfmDSYX0XLe7pJo4NPc=}
+      APP_ENV: production
+      APP_DEBUG: "false"
+      REQUIRE_HTTPS: "false"
+      DB_HOST: invoiceninja-db
+      DB_PORT: "3306"
+      DB_DATABASE: ninja
+      DB_USERNAME: ninja
+      DB_PASSWORD: ${DB_PASSWORD:-ninja_password}
+      IN_USER_EMAIL: ${ADMIN_EMAIL:-admin@example.com}
+      IN_PASSWORD: ${ADMIN_PASSWORD:-password}
+      TRUSTED_PROXIES: "*"
+    ports:
+      - "8080:80"
+    volumes:
+      - invoiceninja-public:/var/www/app/public
+      - invoiceninja-storage:/var/www/app/storage
+    depends_on:
+      invoiceninja-db:
+        condition: service_healthy
+    restart: always
+
+volumes:
+  invoiceninja-db:
+  invoiceninja-public:
+  invoiceninja-storage:

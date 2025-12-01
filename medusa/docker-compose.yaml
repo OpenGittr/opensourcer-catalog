@@ -1,0 +1,49 @@
+services:
+  medusa-db:
+    image: postgres:15-alpine
+    container_name: medusa-db
+    environment:
+      POSTGRES_USER: medusa
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-medusa_password}
+      POSTGRES_DB: medusa
+    volumes:
+      - medusa-db:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U medusa"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  medusa-redis:
+    image: redis:alpine
+    container_name: medusa-redis
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  medusa:
+    image: medusajs/medusa:latest
+    container_name: medusa
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://medusa:${DB_PASSWORD:-medusa_password}@medusa-db:5432/medusa
+      REDIS_URL: redis://medusa-redis:6379
+      JWT_SECRET: ${JWT_SECRET:-supersecret}
+      COOKIE_SECRET: ${COOKIE_SECRET:-supersecret}
+      ADMIN_CORS: http://localhost:7001,http://localhost:7000
+      STORE_CORS: http://localhost:8000
+    ports:
+      - "9000:9000"
+    depends_on:
+      medusa-db:
+        condition: service_healthy
+      medusa-redis:
+        condition: service_healthy
+    restart: always
+
+volumes:
+  medusa-db:

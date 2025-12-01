@@ -62,6 +62,41 @@
       "description": "Customer relationship management systems",
       "icon": "users",
       "order": 9
+    },
+    {
+      "slug": "helpdesk",
+      "name": "Helpdesk",
+      "description": "Ticketing and customer support systems",
+      "icon": "ticket",
+      "order": 10
+    },
+    {
+      "slug": "project-management",
+      "name": "Project Management",
+      "description": "Project tracking and team collaboration tools",
+      "icon": "clipboard-list",
+      "order": 11
+    },
+    {
+      "slug": "ecommerce",
+      "name": "E-commerce",
+      "description": "Online store and shopping platforms",
+      "icon": "shopping-cart",
+      "order": 12
+    },
+    {
+      "slug": "invoicing",
+      "name": "Invoicing",
+      "description": "Invoice and billing management",
+      "icon": "receipt",
+      "order": 13
+    },
+    {
+      "slug": "hr",
+      "name": "HR & Recruiting",
+      "description": "Human resources and recruitment tools",
+      "icon": "user-group",
+      "order": 14
     }
   ]
 }

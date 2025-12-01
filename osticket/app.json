@@ -1,0 +1,34 @@
+{
+  "name": "osTicket",
+  "description": "Widely-used open source support ticket system",
+  "website": "https://osticket.com",
+  "icon": "https://osticket.com/wp-content/uploads/2021/03/osticket-supsys-favicon-32x32-1.png",
+  "category": "helpdesk",
+  "tags": ["helpdesk", "ticketing", "support", "customer-service", "php"],
+  "inputs": {
+    "admin_email": {
+      "label": "Admin Email",
+      "placeholder": "admin@example.com",
+      "required": true,
+      "type": "email",
+      "description": "Administrator email address"
+    },
+    "admin_password": {
+      "label": "Admin Password",
+      "placeholder": "password",
+      "required": false,
+      "type": "password",
+      "description": "Administrator password"
+    }
+  },
+  "services": {
+    "osticket": {
+      "exposed": true,
+      "stateless": false
+    },
+    "osticket-db": {
+      "internal": true,
+      "managed_option": "mysql"
+    }
+  }
+}

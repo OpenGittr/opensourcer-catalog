@@ -1,0 +1,61 @@
+{
+  "name": "Taiga",
+  "description": "Agile project management platform for startups and agile developers",
+  "website": "https://www.taiga.io",
+  "icon": "https://www.taiga.io/media/images/taiga-logo.svg",
+  "category": "project-management",
+  "tags": ["project-management", "agile", "scrum", "kanban", "backlog", "sprints"],
+  "inputs": {
+    "admin_email": {
+      "label": "Admin Email",
+      "placeholder": "admin@example.com",
+      "required": true,
+      "type": "email",
+      "description": "Administrator email address"
+    },
+    "admin_password": {
+      "label": "Admin Password",
+      "placeholder": "password",
+      "required": false,
+      "type": "password",
+      "description": "Administrator password"
+    },
+    "secret_key": {
+      "label": "Secret Key",
+      "placeholder": "your-secret-key",
+      "required": false,
+      "type": "password",
+      "description": "Django secret key for security"
+    }
+  },
+  "services": {
+    "taiga-gateway": {
+      "exposed": true,
+      "stateless": true
+    },
+    "taiga-front": {
+      "internal": true,
+      "stateless": true
+    },
+    "taiga-back": {
+      "internal": true,
+      "stateless": false
+    },
+    "taiga-async": {
+      "internal": true
+    },
+    "taiga-events": {
+      "internal": true
+    },
+    "taiga-db": {
+      "internal": true,
+      "managed_option": "postgres"
+    },
+    "taiga-async-rabbitmq": {
+      "internal": true
+    },
+    "taiga-events-rabbitmq": {
+      "internal": true
+    }
+  }
+}

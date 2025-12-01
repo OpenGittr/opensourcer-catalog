@@ -1,0 +1,44 @@
+{
+  "name": "Zammad",
+  "description": "Web-based helpdesk and customer support system with ticket management",
+  "website": "https://zammad.org",
+  "icon": "https://zammad.org/assets/images/logo-blue.svg",
+  "category": "helpdesk",
+  "tags": ["helpdesk", "ticketing", "support", "customer-service", "email", "chat"],
+  "inputs": {
+    "admin_email": {
+      "label": "Admin Email",
+      "placeholder": "admin@example.com",
+      "required": true,
+      "type": "email",
+      "description": "Administrator email address"
+    },
+    "admin_password": {
+      "label": "Admin Password",
+      "placeholder": "password",
+      "required": false,
+      "type": "password",
+      "description": "Administrator password"
+    }
+  },
+  "services": {
+    "zammad": {
+      "exposed": true,
+      "stateless": false
+    },
+    "zammad-elasticsearch": {
+      "internal": true
+    },
+    "zammad-memcached": {
+      "internal": true
+    },
+    "zammad-postgresql": {
+      "internal": true,
+      "managed_option": "postgres"
+    },
+    "zammad-redis": {
+      "internal": true,
+      "managed_option": "redis"
+    }
+  }
+}

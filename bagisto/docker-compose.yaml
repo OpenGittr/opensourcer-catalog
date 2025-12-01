@@ -1,0 +1,45 @@
+services:
+  bagisto-db:
+    image: mysql:8.0
+    container_name: bagisto-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-bagisto_root}
+      MYSQL_DATABASE: bagisto
+      MYSQL_USER: bagisto
+      MYSQL_PASSWORD: ${DB_PASSWORD:-bagisto_password}
+    volumes:
+      - bagisto-db:/var/lib/mysql
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  bagisto:
+    image: webkul/bagisto:latest
+    container_name: bagisto
+    environment:
+      APP_URL: ${APP_URL:-http://localhost:8080}
+      APP_TIMEZONE: UTC
+      DB_CONNECTION: mysql
+      DB_HOST: bagisto-db
+      DB_PORT: "3306"
+      DB_DATABASE: bagisto
+      DB_USERNAME: bagisto
+      DB_PASSWORD: ${DB_PASSWORD:-bagisto_password}
+      ADMIN_NAME: Admin
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@example.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-password}
+    ports:
+      - "8080:80"
+    volumes:
+      - bagisto-storage:/var/www/html/storage
+    depends_on:
+      bagisto-db:
+        condition: service_healthy
+    restart: always
+
+volumes:
+  bagisto-db:
+  bagisto-storage:

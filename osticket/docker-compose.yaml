@@ -1,0 +1,39 @@
+services:
+  osticket-db:
+    image: mariadb:10
+    container_name: osticket-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-osticket_root}
+      MYSQL_DATABASE: osticket
+      MYSQL_USER: osticket
+      MYSQL_PASSWORD: ${DB_PASSWORD:-osticket_password}
+    volumes:
+      - osticket-db:/var/lib/mysql
+    restart: always
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  osticket:
+    image: osticket/osticket:latest
+    container_name: osticket
+    environment:
+      MYSQL_HOST: osticket-db
+      MYSQL_DATABASE: osticket
+      MYSQL_USER: osticket
+      MYSQL_PASSWORD: ${DB_PASSWORD:-osticket_password}
+      INSTALL_SECRET: ${INSTALL_SECRET:-secret_string}
+    ports:
+      - "8080:80"
+    volumes:
+      - osticket-data:/var/www/html
+    depends_on:
+      osticket-db:
+        condition: service_healthy
+    restart: always
+
+volumes:
+  osticket-db:
+  osticket-data:

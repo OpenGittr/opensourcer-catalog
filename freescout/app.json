@@ -1,0 +1,42 @@
+{
+  "name": "FreeScout",
+  "description": "Free self-hosted help desk and shared mailbox (HelpScout alternative)",
+  "website": "https://freescout.net",
+  "icon": "https://freescout.net/wp-content/uploads/2018/09/freescout-logo.png",
+  "category": "helpdesk",
+  "tags": ["helpdesk", "ticketing", "support", "email", "shared-mailbox", "helpscout-alternative"],
+  "inputs": {
+    "admin_email": {
+      "label": "Admin Email",
+      "placeholder": "admin@example.com",
+      "required": true,
+      "type": "email",
+      "description": "Administrator email address"
+    },
+    "admin_password": {
+      "label": "Admin Password",
+      "placeholder": "password",
+      "required": false,
+      "type": "password",
+      "description": "Administrator password"
+    },
+    "site_url": {
+      "label": "Site URL",
+      "placeholder": "http://localhost:8080",
+      "required": false,
+      "type": "text",
+      "default": "http://localhost:8080",
+      "description": "Public URL for the FreeScout installation"
+    }
+  },
+  "services": {
+    "freescout": {
+      "exposed": true,
+      "stateless": false
+    },
+    "freescout-db": {
+      "internal": true,
+      "managed_option": "mysql"
+    }
+  }
+}

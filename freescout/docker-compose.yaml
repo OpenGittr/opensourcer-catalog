@@ -1,0 +1,44 @@
+services:
+  freescout-db:
+    image: mariadb:10
+    container_name: freescout-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-freescout_root}
+      MYSQL_DATABASE: freescout
+      MYSQL_USER: freescout
+      MYSQL_PASSWORD: ${DB_PASSWORD:-freescout_password}
+    volumes:
+      - freescout-db:/var/lib/mysql
+    restart: always
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  freescout:
+    image: tiredofit/freescout:latest
+    container_name: freescout
+    environment:
+      CONTAINER_NAME: freescout
+      DB_HOST: freescout-db
+      DB_NAME: freescout
+      DB_USER: freescout
+      DB_PASS: ${DB_PASSWORD:-freescout_password}
+      SITE_URL: ${SITE_URL:-http://localhost:8080}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@example.com}
+      ADMIN_PASS: ${ADMIN_PASSWORD:-password}
+      ENABLE_SSL_PROXY: "FALSE"
+      TIMEZONE: UTC
+    ports:
+      - "8080:80"
+    volumes:
+      - freescout-data:/data
+    depends_on:
+      freescout-db:
+        condition: service_healthy
+    restart: always
+
+volumes:
+  freescout-db:
+  freescout-data:

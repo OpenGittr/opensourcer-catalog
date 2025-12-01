@@ -1,0 +1,163 @@
+services:
+  plane-db:
+    image: postgres:15.2-alpine
+    container_name: plane-db
+    environment:
+      POSTGRES_USER: plane
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-plane}
+      POSTGRES_DB: plane
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - plane-db:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U plane -d plane"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  plane-redis:
+    image: redis:6.2.7-alpine
+    container_name: plane-redis
+    restart: always
+    volumes:
+      - plane-redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  plane-minio:
+    image: minio/minio:latest
+    container_name: plane-minio
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-access-key}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-secret-key}
+    command: server /export --console-address ":9090"
+    volumes:
+      - plane-minio:/export
+    restart: always
+
+  web:
+    image: makeplane/plane-frontend:latest
+    container_name: plane-web
+    command: node web/server.js web
+    restart: always
+    depends_on:
+      - api
+
+  space:
+    image: makeplane/plane-space:latest
+    container_name: plane-space
+    command: node space/server.js space
+    restart: always
+    depends_on:
+      - api
+      - web
+
+  api:
+    image: makeplane/plane-backend:latest
+    container_name: plane-api
+    command: ./bin/docker-entrypoint-api.sh
+    environment:
+      DEBUG: "0"
+      DJANGO_SETTINGS_MODULE: plane.settings.production
+      DOCKERIZED: "1"
+      GUNICORN_WORKERS: "1"
+      PGHOST: plane-db
+      PGDATABASE: plane
+      POSTGRES_USER: plane
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-plane}
+      POSTGRES_DB: plane
+      POSTGRES_HOST: plane-db
+      POSTGRES_PORT: "5432"
+      DATABASE_URL: postgresql://plane:${DB_PASSWORD:-plane}@plane-db/plane
+      REDIS_HOST: plane-redis
+      REDIS_PORT: "6379"
+      REDIS_URL: redis://plane-redis:6379/
+      SECRET_KEY: ${SECRET_KEY:-60gp0byfz2dvffa45cxl20p1scy9xbpf6d8c5y0geez2}
+      USE_MINIO: "1"
+      AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER:-access-key}
+      AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:-secret-key}
+      AWS_S3_BUCKET_NAME: uploads
+      AWS_S3_ENDPOINT_URL: http://plane-minio:9000
+      FILE_SIZE_LIMIT: "5242880"
+      WEB_URL: http://localhost:8080
+    depends_on:
+      plane-db:
+        condition: service_healthy
+      plane-redis:
+        condition: service_healthy
+      plane-minio:
+        condition: service_started
+    restart: always
+
+  worker:
+    image: makeplane/plane-backend:latest
+    container_name: plane-worker
+    command: ./bin/docker-entrypoint-worker.sh
+    environment:
+      DEBUG: "0"
+      DJANGO_SETTINGS_MODULE: plane.settings.production
+      DOCKERIZED: "1"
+      PGHOST: plane-db
+      PGDATABASE: plane
+      POSTGRES_USER: plane
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-plane}
+      POSTGRES_DB: plane
+      POSTGRES_HOST: plane-db
+      POSTGRES_PORT: "5432"
+      DATABASE_URL: postgresql://plane:${DB_PASSWORD:-plane}@plane-db/plane
+      REDIS_HOST: plane-redis
+      REDIS_PORT: "6379"
+      REDIS_URL: redis://plane-redis:6379/
+      SECRET_KEY: ${SECRET_KEY:-60gp0byfz2dvffa45cxl20p1scy9xbpf6d8c5y0geez2}
+      USE_MINIO: "1"
+      AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER:-access-key}
+      AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:-secret-key}
+      AWS_S3_BUCKET_NAME: uploads
+      AWS_S3_ENDPOINT_URL: http://plane-minio:9000
+    depends_on:
+      - api
+    restart: always
+
+  beat-worker:
+    image: makeplane/plane-backend:latest
+    container_name: plane-beat-worker
+    command: ./bin/docker-entrypoint-beat.sh
+    environment:
+      DEBUG: "0"
+      DJANGO_SETTINGS_MODULE: plane.settings.production
+      DOCKERIZED: "1"
+      PGHOST: plane-db
+      PGDATABASE: plane
+      POSTGRES_USER: plane
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-plane}
+      POSTGRES_DB: plane
+      POSTGRES_HOST: plane-db
+      POSTGRES_PORT: "5432"
+      DATABASE_URL: postgresql://plane:${DB_PASSWORD:-plane}@plane-db/plane
+      REDIS_HOST: plane-redis
+      REDIS_PORT: "6379"
+      REDIS_URL: redis://plane-redis:6379/
+      SECRET_KEY: ${SECRET_KEY:-60gp0byfz2dvffa45cxl20p1scy9xbpf6d8c5y0geez2}
+    depends_on:
+      - api
+    restart: always
+
+  proxy:
+    image: makeplane/plane-proxy:latest
+    container_name: plane-proxy
+    ports:
+      - "8080:80"
+    depends_on:
+      - web
+      - api
+      - space
+    restart: always
+
+volumes:
+  plane-db:
+  plane-redis:
+  plane-minio:

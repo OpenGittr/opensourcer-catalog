@@ -1,0 +1,49 @@
+{
+  "name": "Invoice Ninja",
+  "description": "Free open-source invoicing, quotes, expenses and time-tracking",
+  "website": "https://invoiceninja.com",
+  "icon": "https://invoiceninja.com/favicon.ico",
+  "category": "invoicing",
+  "tags": ["invoicing", "billing", "quotes", "expenses", "time-tracking", "payments"],
+  "inputs": {
+    "admin_email": {
+      "label": "Admin Email",
+      "placeholder": "admin@example.com",
+      "required": true,
+      "type": "email",
+      "description": "Administrator email address"
+    },
+    "admin_password": {
+      "label": "Admin Password",
+      "placeholder": "password",
+      "required": false,
+      "type": "password",
+      "description": "Administrator password"
+    },
+    "app_key": {
+      "label": "App Key",
+      "placeholder": "base64:...",
+      "required": false,
+      "type": "password",
+      "description": "Laravel application key (generate with: echo 'base64:'$(openssl rand -base64 32))"
+    },
+    "app_url": {
+      "label": "App URL",
+      "placeholder": "http://localhost:8080",
+      "required": false,
+      "type": "text",
+      "default": "http://localhost:8080",
+      "description": "Public URL for the Invoice Ninja installation"
+    }
+  },
+  "services": {
+    "invoiceninja": {
+      "exposed": true,
+      "stateless": false
+    },
+    "invoiceninja-db": {
+      "internal": true,
+      "managed_option": "mysql"
+    }
+  }
+}
